@@ -19,9 +19,9 @@ hs_routes <- only_hs %>%
     hour = as.numeric(format(Time, "%H")),
     date = as.Date(Time)
   ) %>%
-  group_by(Route, date) %>%
+  group_by(Route, date, hour) %>%
   summarise(nstudents = n())
 
-#now I have a data frame of the number of students that ride each route in each day. Lets look at an example day, 
+#now I have a data frame of the number of students that ride each route in each day. Lets look at an example day, through a simulation that checks the 
 
 
