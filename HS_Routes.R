@@ -1,9 +1,11 @@
+#read in the data
 otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
 ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 
 #load necessary libraries
 library(tidyverse)
 
+#filter to the data for just high school students
 HS_Routes <- function(ridership){
   only_hs <- ridership %>%
     filter(High.School != "None") 
