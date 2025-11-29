@@ -8,7 +8,7 @@ library(tidyverse)
 #filter to the data for just high school students
 HS_Routes <- function(ridership){
   only_hs <- ridership %>%
-    filter(High.School != "None") 
+    filter(High.School == "Providence Public School Department") 
   return(only_hs)
 }
 
@@ -22,8 +22,12 @@ hs_routes <- only_hs %>%
     date = as.Date(Time)
   ) %>%
   group_by(Route, date, hour) %>%
-  summarise(nstudents = n())
+  summarise(nstudents = n()) %>%
+  ungroup() %>%
+  group_by(Route, hour) %>%
+  summarize()
 
 #now I have a data frame of the number of students that ride each route in each day. Lets look at an example day, through a simulation that checks the 
+simulate_hs_ridership(ridership) 
 
 
