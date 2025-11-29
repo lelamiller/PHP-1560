@@ -11,7 +11,7 @@ library(tidyverse)
 
 
 #filter to the data for just high school students
-HS_Routes <- function(ridership){
+HS_ridership <- function(ridership){
   
 #filter to just high school students on school days
 only_hs <- ridership %>%
@@ -36,7 +36,8 @@ return(hs_routes)
 
 
 #Test Run
-HS_Routes(ridership)
+HS_ridership_result <- HS_ridership(ridership)
+write.csv(HS_ridership_result, "HS_ridership_result.csv", )
 
 #Plots to look at the distribution of student ridership
 allroutesx_hat <- ggplot(hs_routes) + geom_line(aes(x = hour, y = x_hat, group = Route, color = Route)) + labs(x= "Hour of the Day", y = "Avg Number of Students")
