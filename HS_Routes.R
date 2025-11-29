@@ -29,9 +29,18 @@ hs_routes <- only_hs %>%
   group_by(Route, hour) %>%
   summarize(x_hat = n()/n_distinct(date))
 
+hs_routes$Route <- as.factor(hs_routes$Route)
+
 return(hs_routes)
 }
 
 
 #Test Run
 HS_Routes(ridership)
+
+#Plots to look at the distribution of student ridership
+allroutesx_hat <- ggplot(hs_routes) + geom_line(aes(x = hour, y = x_hat, group = Route, color = Route)) + labs(x= "Hour of the Day", y = "Avg Number of Students")
+ggsave("/Users/lelamiller/Documents/GitHub/PHP-1560/Plots/allroutesx_hat.png", plot = allroutesx_hat, width = 6, height = 6, units = "in", dpi = 300)
+
+#from this plot we can see that there are clear spikes in ridership during morning hours, and mid afternoon. Now, we want to identify the routes with the most students. 
+
