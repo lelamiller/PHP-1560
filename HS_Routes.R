@@ -36,7 +36,7 @@ HS_Routes <- function(HS_ridership_result){
 #Keep only likely school routes
   school_routes <- school_vs_nonschool %>%
     filter(likely_school_route == TRUE) %>%
-    select(Route, school_commute, other, commute_ratio)
+    select(Route)
   
   return(school_routes)
 }
