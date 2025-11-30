@@ -12,6 +12,34 @@
 HS_ridership_result <- read.csv("/Users/lelamiller/Documents/GitHub/PHP-1560/Data/HS_ridership_result.csv")
 
 HS_Routes <- function(HS_ridership_result){
-  school_hours <- HS_ridership_result %>%
-    filter(hour == c(6, 7, 14, 15))
+  
+  school_hours <- c(6, 7, 14, 15)
+
+#comparing school hour riders to non school hours riders
+  school_vs_nonschool <- HS_ridership_result %>%
+    mutate(commute = ifelse(hour %in% school_hours, "school_commute", "other")) %>%
+    group_by(Route, commute) %>%
+    summarize(avg_x = mean(x_hat), .groups = "drop") %>%
+    pivot_wider(
+      names_from = commute,
+      values_from = avg_x,
+      values_fill = 0
+    )
+  
+#Compute a ratio metric to classify routes
+  school_vs_nonschool <- school_vs_nonschool %>%
+    mutate(
+      commute_ratio = school_commute / other,
+      likely_school_route = commute_ratio > 1.3   # change threshold? how many routes do we want
+    )
+
+#Keep only likely school routes
+  school_routes <- school_vs_nonschool %>%
+    filter(likely_school_route == TRUE) %>%
+    select(Route, school_commute, other, commute_ratio)
+  
+  return(school_routes)
 }
+
+    
+
