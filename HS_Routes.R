@@ -2,6 +2,7 @@
 #' Also, determines the on time performance as a proportion of busses late by more than 5 minutes during school hours and outside of school hours. 
 #' @param HS_ridership_result data frame with the route, hour of day, and x_hat, the average number of student passengers on a week day
 #' @param otp a dataframe of bus routes, their arrival times and scheduled arrival times. Indicates the on time performance of busses. 
+#' @param school_hours a vector of hours that students would be riding the bus based on school start time and release time
 #' @return otp_summary, a comparison of the proportion of late arrivals on school routes during school hours and non school hours
 
 
