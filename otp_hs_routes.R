@@ -18,7 +18,7 @@ old_school_hours <- c(6, 7, 14, 15)
 school_hours <- c(6, 7, 14, 15)
 
 #Start the function:
-otp_school_routes <- function(otp, ridership, school_hours){
+otp_school_routes <- function(otp, ridership, old_school_hours, school_hours){
 
 school_routes <- HS_Routes(ridership, otp, old_school_hours)
 
