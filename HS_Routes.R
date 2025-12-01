@@ -1,9 +1,7 @@
 #' @description determines the bus routes of most interest, as they appear to be used as transportation to and from school by the most students.
 #' Also, determines the on time performance as a proportion of busses late by more than 5 minutes during school hours and outside of school hours. 
-#' @param ridership data frame with the route, type of rider (High.School), 
-#' @param otp a dataframe of bus routes, their arrival times and scheduled arrival times. Indicates the on time performance of busses. 
+#' @param ridership data frame with the route, type of rider (High.School), Time 
 #' @param school_hours a vector of hours that students would be riding the bus based on school start time and release time
-#' @return otp_summary, a comparison of the proportion of late arrivals on school routes during school hours and non school hours
 #' @return school_routes, a vector of the most likely school routes
 
 #Load in data
@@ -65,28 +63,6 @@ HS_Routes <- function(ridership, otp, school_hours){
   school_routes <- school_routes$Route
   print(school_routes)
   
-#Now, filter the on time performance data to be the school routes 
-  otp_summary <- otp %>%
-    filter(Route %in% school_routes) %>%
-    #mutate to add columns for hours, indicator for school hours, and indicator for late
-    mutate(
-      Scheduled.Time = as.POSIXct(Scheduled.Time, format = "%Y-%m-%d %H:%M:%S"),
-      hour = as.numeric(format(Scheduled.Time, "%H")),
-      Late = ifelse(Delay.Sec > 300, "Late", "On Time/Early"),
-      school_period = ifelse(hour %in% school_hours, "school_hours", "nonschool_hours")
-    ) %>%
-    #find the number and proportion late and on time by whether or not its during school hours
-    group_by(school_period, Late) %>%
-    summarize(n = n(), .groups = "drop") %>%
-    group_by(school_period) %>%
-    mutate(prop = n / sum(n)) %>%
-    pivot_wider(
-      names_from = Late,
-      values_from = prop,
-      names_prefix = "prop_"
-    )
-
-  return(otp_summary)
   return(school_routes)
 }
 
