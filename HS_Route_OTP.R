@@ -35,6 +35,9 @@ print(head(routes_stops))
   #at this point, I would want to look at the most popular stops otp, but they are coded differently, as 4 letters, is there a way for me to somehow figure out which numebr\
 #numeric stop goes with the character stop, can I create a map of sorts between the two and merge the data together
 
+#professor paul is looking into whether there is a mapping for the stop number to the stop name.
+
+
 }
 
 
