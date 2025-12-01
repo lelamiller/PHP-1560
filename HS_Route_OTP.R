@@ -1,5 +1,9 @@
-#' @description Comparing on
-#' @param 
+#' @description Route_allocation, considers usual popularity of routes, 
+#' optimizes on time performance for an input of school hours based
+#' on stops that are most popular among students during current school times. 
+#' reccomends a new route or to keep a route for the students commute to school 
+#' based on the route with the best otp for a stop during that hour. 
+#' @param otp 
 #' @return 
 #' 
 #read in the data
