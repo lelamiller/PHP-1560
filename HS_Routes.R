@@ -6,18 +6,16 @@
 #' @return otp_summary, a comparison of the proportion of late arrivals on school routes during school hours and non school hours
 #' @return school_routes, a vector of the most likely school routes
 
-
-#First metric to determine whether a bus is a school route or not:
-  #We know high schools start at 7:45 roughly, and they end around 2:30 typically
-  #therefore HS student ridership within the hours 6-7 and 2-3 can be assumed to be transportation to and from school
-  #1: We can compare ridership across routes during this hour 
-  #2: On each route, we can compare average ridership during these hours to the average ridership during non-school hours
-
+#Load in data
 otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
 ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 
+#load libraries
 library(tidyverse)
 
+#vector for school hours? Can be changed when running function for different start times
+#We know high schools start at 7:45 roughly, and they end around 2:30 typically
+#therefore HS student ridership within the hours 6-7 and 2-3 can be assumed to be transportation to and from school
 school_hours <- c(6, 7, 14, 15)
 
 HS_Routes <- function(ridership, otp, school_hours){
@@ -50,6 +48,9 @@ HS_Routes <- function(ridership, otp, school_hours){
     )
   
   #Compute a ratio metric to classify routes
+  #here, we are computing the the number of students commuting during school hours divided by the number 
+  #of students commuting during non-school transportation likely hours. This shows how many more students
+  #are riding the bus for drop off, indicating whether or not these routes are likely school bus routes. 
   school_vs_nonschool <- school_vs_nonschool %>%
     mutate(
       commute_ratio = school_commute / other,
@@ -89,5 +90,5 @@ HS_Routes <- function(ridership, otp, school_hours){
   return(school_routes)
 }
 
-    
+
 

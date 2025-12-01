@@ -1,16 +1,21 @@
 #' @description Route_allocation, considers usual popularity of routes, 
 #' optimizes on time performance for an input of school hours based
 #' on stops that are most popular among students during current school times. 
-#' reccomends a new route or to keep a route for the students commute to school 
+#' recommends a new route or to keep a route for the students commute to school 
 #' based on the route with the best otp for a stop during that hour. 
-#' @param otp 
-#' @return 
-#' 
+#' @param ridership data frame with the route, type of rider (High.School), 
+#' @param otp a data frame of bus routes, their arrival times and scheduled arrival times. Indicates the on time performance of busses. 
+#' @param school_hours a vector of hours that students would be riding the bus based on school start time and release time
+#' @return reccomended_routes, a dataframe with the original popular routes, and then new recommended route if that 
+#' route is not the best on time performance during the school hours 
+
 #read in the data
 otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
 ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 
-school_hours <- c(6, 7, 14, 15)
+new_school_hours <- c(6, 7, 14, 15)
+  #include hour before stsrt time, hour during start time
+  #include hour of end time and hour after end time
 
 Route_allocation <- function(otp, ridership, school_hours) {
   
@@ -36,7 +41,6 @@ print(head(routes_stops))
 #numeric stop goes with the character stop, can I create a map of sorts between the two and merge the data together
 
 #professor paul is looking into whether there is a mapping for the stop number to the stop name.
-
 
 }
 
