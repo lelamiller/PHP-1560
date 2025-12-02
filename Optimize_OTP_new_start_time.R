@@ -40,6 +40,8 @@ morning_stops <- ridership %>%
   arrange(desc(nstudents)) %>%
   group_by(Stop.Number)
 
+#here, save a vector for the initial allocation of morning routes?
+
 afternoon_stops <- ridership %>%
   filter(High.School == "Providence Public School Department") %>%
   filter(Day.of.Week != "Sat", 
@@ -64,14 +66,16 @@ stops <- stops %>%
 
 otp <- left_join(otp, stops)
 
+
+#this shows the proportion late overall for each route and stop
 otp <- otp %>%
   mutate(
     Scheduled.Time = as.POSIXct(Scheduled.Time, format = "%Y-%m-%d %H:%M:%S"),
     hour = hour(Scheduled.Time),
     Late = ifelse(Delay.Sec > 300, 1, 0)    # flag lateness > 5 min
-  )
-
-
+  ) %>%
+  group_by(stop_id, Route) %>%
+  summarise(proplate = sum(Late)/n())
 
 
 #maybe a loop through most popular stops, to find the route with the best on time performance for that stop during the hour?
