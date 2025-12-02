@@ -67,16 +67,18 @@ stops <- stops %>%
 otp <- left_join(otp, stops)
 
 
-#this shows the proportion late overall for each route and stop
-otp <- otp %>%
+#this shows the proportion late overall for each route and stop and hour
+stop_otp <- otp %>%
   mutate(
     Scheduled.Time = as.POSIXct(Scheduled.Time, format = "%Y-%m-%d %H:%M:%S"),
     hour = hour(Scheduled.Time),
     Late = ifelse(Delay.Sec > 300, 1, 0)    # flag lateness > 5 min
   ) %>%
-  group_by(stop_id, Route) %>%
+  group_by(stop_id, Route, hour) %>%
   summarise(proplate = sum(Late)/n())
 
+#for new school hours, we will check the proportion late for the bus stops kids need in the morning and afternoon, 
+#update initial allocation by selecting the minimum prop late route for each stop
 
 #maybe a loop through most popular stops, to find the route with the best on time performance for that stop during the hour?
   #at this point, I would want to look at the most popular stops otp, but they are coded differently, as 4 letters, is there a way for me to somehow figure out which numebr\
