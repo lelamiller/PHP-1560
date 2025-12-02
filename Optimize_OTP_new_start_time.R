@@ -21,9 +21,6 @@ new_school_hours <- c(6, 7, 14, 15)
 
 Route_allocation <- function(otp, ridership, school_hours) {
   
-
-  
-  
 #look at the popular stops on the hs routes, how do these overlap between routes, how can we change routes based on otp
 routes_stops <- ridership %>%
   filter(High.School == "Providence Public School Department") %>%
@@ -41,13 +38,30 @@ routes_stops <- ridership %>%
 
 print(head(routes_stops))
 
-
 #use the map of stops to add stop_id to the otp dataframe, this will allow us to compare the routes by the stops the students ride
 stops <- stops %>%
   select(stop_id, stop_associated_place) %>%
   rename(Stop = stop_associated_place)
 
 otp <- left_join(otp, stops)
+
+otp <- otp %>%
+  mutate(
+    Scheduled.Time = as.POSIXct(Scheduled.Time, format = "%Y-%m-%d %H:%M:%S"),
+    hour = hour(Scheduled.Time),
+    Late = ifelse(Delay.Sec > 300, 1, 0)    # flag lateness > 5 min
+  )
+
+otp_stop_perf <- otp %>%
+  filter(hour %in% school_hours) %>%
+  group_by(stop_id, Route) %>%
+  summarize(
+    mean_delay = mean(Delay.Sec, na.rm = TRUE),
+    late_rate = mean(Late, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
 #maybe a loop through most popular stops, to find the route with the best on time performance for that stop during the hour?
   #at this point, I would want to look at the most popular stops otp, but they are coded differently, as 4 letters, is there a way for me to somehow figure out which numebr\
 #numeric stop goes with the character stop, can I create a map of sorts between the two and merge the data together
