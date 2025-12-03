@@ -80,6 +80,9 @@ stop_otp <- otp %>%
   group_by(stop_id, Route, hour) %>%
   summarise(proplate = sum(Late)/n())
 
+
+#add quantifying lateness in different ways, doing the distribution 
+
 #for new school hours, we will check the proportion late for the bus stops kids need in the morning and afternoon, 
 #update initial allocation by selecting the minimum prop late route for each stop
 
