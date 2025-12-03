@@ -11,24 +11,9 @@
 #' @return recommended_routes, a data frame with the original popular routes, and then new recommended route if that 
 #' route is not the best on time performance during the school hours 
 
-#read in the data
-otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
-ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
-#MAP FOR STOPS:
-stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/Data/stops.txt", sep = ",")
-
-
 #load libraries
 library(tidyverse)
 
-new_school_morning <- c(6, 7)
-new_school_afternoon <- c(14, 15)
-  #include hour before start time, hour during start time
-  #include hour of end time and hour after end time
-old_school_morning <- c(6, 7)
-old_school_afternoon <- c(14, 15)
-
-cutoff <- 10
 
 Route_allocation <- function(otp, ridership, new_school_morning, 
                              new_school_afternoon, old_school_morning, 
@@ -74,7 +59,7 @@ afternoon_stops <- ridership %>%
 afternoon_unique_stops <- (unique(c(afternoon_stops$Stop.Number)))
 
 #use the map of stops to add stop_id to the otp dataframe, this will allow us to compare the routes by the stops the students ride
-stops_join <- stops %>%
+stop_join <- stops %>%
   select(stop_id, stop_associated_place) %>%
   rename(Stop = stop_associated_place)
 
@@ -88,6 +73,11 @@ stop_otp <- left_join(otp, stop_join) %>%
   group_by(stop_id, Route, hour) %>%
   summarise(proplate = sum(Late)/n())
 
+stop_filter <- unique(stop_otp$stop_id)
+
+#ensure no values in the school stop data arent in the otp data
+morning_unique_stops <- morning_unique_stops[morning_unique_stops %in% stop_filter]
+afternoon_unique_stops <- afternoon_unique_stops[afternoon_unique_stops %in% stop_filter]
 
 #morning allocation loop 
 morning_chosen_route <- c()
@@ -117,6 +107,7 @@ for(i in 1:length(afternoon_unique_stops)){
     filter(stop_id == current_stop) %>%
     filter(hour %in% new_school_afternoon) 
   
+  #how to account for missing stops? 
   afternoon_chosen_route[i] <- find_best_route$Route[which.min(find_best_route$proplate)]
   
 }
@@ -141,11 +132,22 @@ return(list(recommended_routes_morning, recommended_routes_afternoon))
 #for new school hours, we will check the proportion late for the bus stops kids need in the morning and afternoon, 
 #update initial allocation by selecting the minimum prop late route for each stop
 
+#read in the data
+otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
+ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
+#MAP FOR STOPS:
+stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/Data/stops.txt", sep = ",")
 
+new_school_morning <- c(6, 7)
+new_school_afternoon <- c(14, 15)
+#include hour before start time, hour during start time
+#include hour of end time and hour after end time
+old_school_morning <- c(6, 7)
+old_school_afternoon <- c(14, 15)
+
+cutoff <- 10
 
 #test run of function:
-
-
 Route_allocation(otp, ridership, new_school_morning, 
                              new_school_afternoon, old_school_morning, 
                              old_school_afternoon, stops, cutoff)
