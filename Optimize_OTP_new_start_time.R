@@ -23,9 +23,12 @@ old_school_morning <- c(6, 7)
 old_school_afternoon <- c(14, 15)
   
 Route_allocation <- function(otp, ridership, school_hours) {
+
+school_routes <- HS_Routes(ridership, otp, old_school_hours)
   
 #look at the popular stops on the hs routes, how do these overlap between routes, how can we change routes based on otp
 morning_stops <- ridership %>%
+  filter(Route %in% school_routes) %>%
   filter(High.School == "Providence Public School Department") %>%
   filter(Day.of.Week != "Sat", 
          Day.of.Week != "Sun") %>%

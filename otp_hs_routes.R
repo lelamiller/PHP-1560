@@ -20,6 +20,7 @@ school_hours <- c(6, 7, 14, 15)
 #Start the function:
 otp_school_routes <- function(otp, ridership, old_school_hours, school_hours){
 
+#compute school routes by calling our first function
 school_routes <- HS_Routes(ridership, otp, old_school_hours)
 
 #filter the on time performance data to be the likely school routes 
