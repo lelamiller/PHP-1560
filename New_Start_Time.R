@@ -110,7 +110,6 @@ for(i in 1:length(afternoon_unique_stops)){
     filter(stop_id == current_stop) %>%
     filter(hour %in% new_school_afternoon) 
   
-  #how to account for missing stops? 
   afternoon_chosen_route[i] <- find_best_route$Route[which.min(find_best_route$proplate)]
   
 }
@@ -132,8 +131,6 @@ return(list(recommended_routes_morning, recommended_routes_afternoon))
 
 #add quantifying lateness in different ways, doing the distribution 
 
-#for new school hours, we will check the proportion late for the bus stops kids need in the morning and afternoon, 
-#update initial allocation by selecting the minimum prop late route for each stop
 
 #read in the data
 otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
