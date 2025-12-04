@@ -5,9 +5,12 @@
 #' based on the route with the best otp for a stop during that hour. For the 50 most popular bus stops
 #' @param ridership data frame with the route, type of rider (High.School), 
 #' @param otp a data frame of bus routes, their arrival times and scheduled arrival times. Indicates the on time performance of busses. 
-#' @param school_hours a vector of hours that students would be riding the bus based on school start time and release time
-#' @param stops a data frame of bus stop id and 4 letter place code, for merging 
-#' @param cutoff a integer for the number of students per bus stop per day to limit our list of students to
+#' @param old_school_morning a vector of hours that students would be riding the bus in the morning based on initial school start times
+#' @param old_school_afternoon a vector of hours that students would be riding the bus in the afternoon based on initial school end times
+#' @param new_school_morning a vector of hours that students would be riding the bus in the morning based on proposed school start times
+#' @param new_school_afternoon a vector of hours that students would be riding the bus in the afternoon based on proposed school start times
+#' @param stops a data frame of bus stop id and 4 letter place code, for merging stop_id into our otp dataframe
+#' @param cutoff a integer for the number of students per bus stop per day to limit our list of bus stops to recommend routes for
 #' @return recommended_routes, a data frame with the original popular routes, and then new recommended route if that 
 #' route is not the best on time performance during the school hours 
 
