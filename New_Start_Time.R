@@ -11,8 +11,8 @@
 #' @param new_school_afternoon a vector of hours that students would be riding the bus in the afternoon based on proposed school start times
 #' @param stops a data frame of bus stop id and 4 letter place code, for merging stop_id into our otp dataframe
 #' @param cutoff a integer for the number of students per bus stop per day to limit our list of bus stops to recommend routes for
-#' @return recommended_routes, a data frame with the original popular routes, and then new recommended route if that 
-#' route is not the best on time performance during the school hours 
+#' @return recommended_routes_morning, a data frame with the needed morning bus stops, and the recommended route for the best on time performance
+#' @return recommended_routes_afternoon, a data frame with the needed afternoon bus stops, and the recommended route for the best on time performance
 
 #load libraries
 library(tidyverse)
