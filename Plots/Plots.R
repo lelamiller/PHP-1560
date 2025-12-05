@@ -36,3 +36,31 @@ ggsave("/Users/lelamiller/Documents/GitHub/PHP-1560/Plots/allroutesx_hat.png", p
 
 #from this plot we can see that there are clear spikes in ridership during morning hours, and mid afternoon. Now, we want to identify the routes with the most students. 
 
+
+#PLOT FOR THE MORNING STOPS- WHICH STOPS ARE STUDENTS RIDING
+otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
+ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
+old_school_morning <- c(6, 7)
+cutoff <- 10
+
+#load necessary libraries
+library(tidyverse)
+library(ggplot2)
+
+morning_stops <- ridership %>%
+  filter(High.School == "Providence Public School Department") %>%
+  filter(Day.of.Week != "Sat", 
+         Day.of.Week != "Sun") %>%
+  mutate(
+    Time = as.POSIXct(Time, format = "%m/%d/%y %H:%M"),
+    hour = as.numeric(format(Time, "%H")),
+    date = as.Date(Time)
+  ) %>%
+  filter(hour %in% old_school_morning) %>%
+  group_by(Stop.Number, Route) %>%
+  summarize(nstudents = n()/n_distinct(date)) %>%
+  arrange(desc(nstudents)) %>%
+  group_by(Stop.Number) %>%
+  filter(nstudents > cutoff)
+
+ggplot(morning_stops, aes(x = Stop.Number , y = nstudents)) + geom_bar()
