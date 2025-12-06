@@ -5,8 +5,12 @@
 #' @return school_routes, a vector of the most likely school routes
 
 #Load in data
-otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
-ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
+## otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
+## ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
+
+# Nikhil Data
+otp <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/otp_simulated.csv" )
+ridership <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/ridership_simulated.csv")
 
 #load libraries
 library(tidyverse)
