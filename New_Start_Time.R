@@ -136,7 +136,7 @@ return(list(recommended_routes_morning, recommended_routes_afternoon))
 otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
 ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 #MAP FOR STOPS:
-stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/Data/stops.txt", sep = ",")
+stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/stops.txt", sep = ",")
 
 new_school_morning <- c(6, 7)
 new_school_afternoon <- c(14, 15)
