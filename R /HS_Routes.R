@@ -9,16 +9,16 @@
 ## ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 
 # Nikhil Data
-otp <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/otp_simulated.csv" )
-ridership <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/ridership_simulated.csv")
+#otp <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/otp_simulated.csv" )
+#ridership <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/ridership_simulated.csv")
 
 #load libraries
-library(tidyverse)
+#library(tidyverse)
 
 #vector for school hours? Can be changed when running function for different start times
 #We know high schools start at 7:45 roughly, and they end around 2:30 typically
 #therefore HS student ridership within the hours 6-7 and 2-3 can be assumed to be transportation to and from school
-school_hours <- c(6, 7, 14, 15)
+#school_hours <- c(6, 7, 14, 15)
 
 HS_Routes <- function(ridership, otp, school_hours){
   only_hs <- ridership %>%
