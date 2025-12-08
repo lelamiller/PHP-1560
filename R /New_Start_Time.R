@@ -41,7 +41,7 @@ morning_stops <- ridership %>%
   arrange(desc(nstudents)) %>%
   group_by(Stop.Number) %>%
   filter(nstudents > cutoff)
-#PLOT IDEA HERE AND FOR AFTERNOON_STOPS?
+
 
 morning_unique_stops <- (unique(c(morning_stops$Stop.Number)))
 
@@ -117,7 +117,8 @@ for(i in 1:length(morning_unique_stops)){
     filter(stop_id == current_stop) %>%
     filter(hour %in% new_school_morning) 
   
-  morning_chosen_route[i] <- find_best_route$Route[which.min(find_best_route$proplate)]
+  morning_chosen_route[i] <- 
+    find_best_route$Route[which.min(find_best_route$proplate)]
   
 }
 
@@ -133,7 +134,8 @@ for(i in 1:length(afternoon_unique_stops)){
     filter(stop_id == current_stop) %>%
     filter(hour %in% new_school_afternoon) 
   
-  afternoon_chosen_route[i] <- find_best_route$Route[which.min(find_best_route$proplate)]
+  afternoon_chosen_route[i] <- 
+    find_best_route$Route[which.min(find_best_route$proplate)]
   
 }
 
