@@ -218,7 +218,7 @@ old_school_afternoon <- c(15, 16)
 cutoff <- 10
 
 #test run of function:
-Route_allocation(otp, ridership, new_school_morning, 
+result <- Route_allocation(otp, ridership, new_school_morning, 
                              new_school_afternoon, old_school_morning, 
                              old_school_afternoon, stops, cutoff)
 

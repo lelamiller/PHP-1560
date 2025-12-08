@@ -47,12 +47,14 @@ cat("Reliability scores calculated:", nrow(reliability_scores), "routes\n")
 time_comparison <- time_period_comparison(otp, school_routes, 
                                           old_school_morning, old_school_afternoon)
 cat("Time comparison calculated:", nrow(time_comparison), "routes\n\n")
-results <- Route_allocation(otp, ridership, 
+result <- Route_allocation(otp, ridership, 
                             new_school_morning, new_school_afternoon,
                             old_school_morning, old_school_afternoon,
                             stops, cutoff)
-cat("Morning recommendations:", nrow(results[[1]]), "stops\n")
-cat("Afternoon recommendations:", nrow(results[[2]]), "stops\n\n")
+routes_morning <- result[[1]]
+routes_afternoon <- result[[2]]
+routes_morning_reliable <- result[[3]]
+routes_afternoon_reliable <- result[[4]]
 
 #Saving Results
 write.csv(lateness_metrics, "/Users/nikhilsonthalia/Downloads/PHP-1560/Results/lateness_metrics.csv", row.names = FALSE)
@@ -61,6 +63,10 @@ write.csv(time_comparison, "/Users/nikhilsonthalia/Downloads/PHP-1560/Results/mo
 write.csv(otp_summary, "/Users/nikhilsonthalia/Downloads/PHP-1560/Results/otp_summary.csv", row.names = FALSE)
 school_routes_df <- data.frame(Route = school_routes)
 write.csv(school_routes_df, "/Users/nikhilsonthalia/Downloads/PHP-1560/Results/school_routes.csv", row.names = FALSE)
+write.csv(routes_morning, "/Users/lelamiller/Documents/GitHub/PHP-1560/Results/result_morning.csv", row.names = FALSE)
+write.csv(routes_afternoon, "/Users/lelamiller/Documents/GitHub/PHP-1560/Results/result_afternoon.csv", row.names = FALSE)
+write.csv(routes_morning_reliable, "/Users/lelamiller/Documents/GitHub/PHP-1560/Results/routes_morning_reliable.csv", row.names = FALSE)
+write.csv(routes_afternoon_reliable, "/Users/lelamiller/Documents/GitHub/PHP-1560/Results/routes_afternoon_reliable.csv", row.names = FALSE)
 
 
 #Maing Plots
