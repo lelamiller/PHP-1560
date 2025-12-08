@@ -62,6 +62,20 @@ analyze_lateness_metrics <- function(otp, routes, school_hours) {
 
 ## Second lateness function that uses a penalty score 
 
+#' @description Calculates a reliability score for each bus route used by students during specified
+#' school commuting hours. The score incorporates the number and severity of late arrivals
+#' using a penalty-based scoring system. Routes with fewer or shorter delays receive
+#' higher reliability scores, making this metric useful for evaluating or recommending
+#' optimal transportation options for student commuters.
+#'
+#' @param otp A data frame containing on-time performance (OTP) data for bus routes.
+#' @param routes A character or numeric vector of route identifiers to be evaluated.
+#' Only these routes will be included in the scoring process.
+#'
+#' @param school_hours A numeric vector specifying the hours (0–23) during which
+#' students are expected to commute. Only delays occurring within these hours
+#' contribute to the reliability calculation.
+#' @return A data frame containing one row per route, with the following variables:avg_penalty, max_penalty, reliability_score = pmax(0, 100 - (avg_penalty * 10)),  n_trips
 reliability_score <- function(otp, routes, school_hours) {
   
   scores <- otp %>%
@@ -96,6 +110,19 @@ reliability_score <- function(otp, routes, school_hours) {
 }
 
 ### Third lateness function that focuses on morning vs afternoon hours 
+#' @description
+#' Computes and compares on-time performance metrics for selected bus routes
+#' during morning and afternoon school commuting periods. The function quantifies
+#' lateness rates and delay characteristics in each time window, enabling evaluation
+#' of whether a route performs differently before and after school.
+#' @param otp A data frame containing on-time performance (OTP) data.
+#' @param routes A vector of route identifiers to include in the comparison. Only
+#' these routes will be analyzed.
+#' @param morning_hours A numeric vector of hours (0–23) representing the time window
+#' for the morning commuting period (e.g., \code{6:9} for 6 AM–9 AM).
+#' @param afternoon_hours A numeric vector of hours (0–23) for the afternoon
+#' commuting period 
+#' @return A data frame where each row corresponds to a bus route, containing: prop_late = mean(Late_5min),mean_delay = mean(Minutes.Late),median_delay = median(Minutes.Late),sd_delay = sd(Minutes.Late),
 
 time_period_comparison <- function(otp, routes, morning_hours, afternoon_hours) {
   
