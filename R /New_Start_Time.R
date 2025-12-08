@@ -11,7 +11,6 @@
 #' @param new_school_afternoon a vector of hours that students would be riding the bus in the afternoon based on proposed school start times
 #' @param stops a data frame of bus stop id and 4 letter place code, for merging stop_id into our otp dataframe
 #' @param cutoff a integer for the number of students per bus stop per day to limit our list of bus stops to recommend routes for
-#' @param new_school_hours <- c(new_school_morning, new_school_afternoon)
 #' @return recommended_routes_morning, a data frame with the needed morning bus stops, and the recommended route for the best on time performance based on 5 min lateness
 #' @return recommended_routes_afternoon, a data frame with the needed afternoon bus stops, and the recommended route for the best on time performance based on 5 min lateness
 #' @return morning_reliability_based, dataframe with needed morning bus stops, and the recommended route for the best on time performance based on reliability score 
@@ -26,7 +25,7 @@ library(tidyverse)
 
 Route_allocation <- function(otp, ridership, new_school_morning, 
                              new_school_afternoon, old_school_morning, 
-                             old_school_afternoon, stops, cutoff, new_school_hours) {
+                             old_school_afternoon, stops, cutoff) {
 
 #look at the popular stops on the hs routes, how do these overlap between routes, how can we change routes based on otp
 morning_stops <- ridership %>%
@@ -198,31 +197,30 @@ return(list(recommended_routes_morning, recommended_routes_afternoon, morning_re
 }
 
 
-#add quantifying lateness in different ways, doing the distribution 
 
 
 #read in the data
-#otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
-#ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
+otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
+ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
 #MAP FOR STOPS:
-#stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/stops.txt", sep = ",")
+stops <- read.delim("/Users/lelamiller/Documents/GitHub/PHP-1560/Data/stops.txt", sep = ",")
 
 # Nikhil Data
 #otp <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/otp_simulated.csv" )
 #ridership <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/ridership_simulated.csv")
 #stops <- read.delim("/Users//nikhilsonthalia/Downloads/PHP-1560/Data/stops.txt", sep = ",")
 
-#new_school_morning <- c(6, 7)
-#new_school_afternoon <- c(14, 15)
+new_school_morning <- c(6, 7)
+new_school_afternoon <- c(14, 15)
 #include hour before start time, hour during start time
 #include hour of end time and hour after end time
-#old_school_morning <- c(6, 7)
-#old_school_afternoon <- c(14, 15)
+old_school_morning <- c(6, 7)
+old_school_afternoon <- c(14, 15)
 
-#cutoff <- 10
+cutoff <- 10
 
 #test run of function:
-#Route_allocation(otp, ridership, new_school_morning, 
-                             #new_school_afternoon, old_school_morning, 
-                             #old_school_afternoon, stops, cutoff)
+Route_allocation(otp, ridership, new_school_morning, 
+                             new_school_afternoon, old_school_morning, 
+                             old_school_afternoon, stops, cutoff)
 
