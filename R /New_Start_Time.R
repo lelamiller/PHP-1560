@@ -11,8 +11,14 @@
 #' @param new_school_afternoon a vector of hours that students would be riding the bus in the afternoon based on proposed school start times
 #' @param stops a data frame of bus stop id and 4 letter place code, for merging stop_id into our otp dataframe
 #' @param cutoff a integer for the number of students per bus stop per day to limit our list of bus stops to recommend routes for
-#' @return recommended_routes_morning, a data frame with the needed morning bus stops, and the recommended route for the best on time performance
-#' @return recommended_routes_afternoon, a data frame with the needed afternoon bus stops, and the recommended route for the best on time performance
+#' @param new_school_hours <- c(new_school_morning, new_school_afternoon)
+#' @return recommended_routes_morning, a data frame with the needed morning bus stops, and the recommended route for the best on time performance based on 5 min lateness
+#' @return recommended_routes_afternoon, a data frame with the needed afternoon bus stops, and the recommended route for the best on time performance based on 5 min lateness
+#' @return morning_reliability_based, dataframe with needed morning bus stops, and the recommended route for the best on time performance based on reliability score 
+#' @return afternoon_reliability_based, dataframe with needed afternoon bus stops, and the recommended route for the best on time performance based on reliability score 
+
+
+
 
 #load libraries
 library(tidyverse)
@@ -20,7 +26,7 @@ library(tidyverse)
 
 Route_allocation <- function(otp, ridership, new_school_morning, 
                              new_school_afternoon, old_school_morning, 
-                             old_school_afternoon, stops, cutoff) {
+                             old_school_afternoon, stops, cutoff, new_school_hours) {
 
 #look at the popular stops on the hs routes, how do these overlap between routes, how can we change routes based on otp
 morning_stops <- ridership %>%
@@ -76,6 +82,26 @@ stop_otp <- left_join(otp, stop_join) %>%
   group_by(stop_id, Route, hour) %>%
   summarise(proplate = sum(Late)/n())
 
+### ADDING THE RELIABILITY SCORE INTO OUR ROUTE ALLOCATION PROCESS
+
+# Identify all unique routes serving HS stops
+routes_for_scoring <- unique(stop_otp$Route)
+
+# Compute reliability scores for these routes using the existing function
+reliability_table_morning <- reliability_score(otp, routes_for_scoring, new_school_morning)
+reliability_table_afternoon <- reliability_score(otp, routes_for_scoring, new_school_afternoon)
+
+# Join the scores into stop_otp so we can compare routes by stop
+stop_otp <- stop_otp %>%
+  left_join(reliability_table_morning %>% select(Route, reliability_score), by = "Route",
+            relationship = "many-to-one") %>%
+  rename(reliability_morning = reliability_score) %>%
+  left_join(reliability_table_afternoon %>% select(Route, reliability_score), by = "Route",
+            relationship = "many-to-one") %>%
+  rename(reliability_afternoon = reliability_score)
+
+
+
 stop_filter <- unique(stop_otp$stop_id)
 
 #ensure no values in the school stop data arent in the otp data
@@ -114,6 +140,40 @@ for(i in 1:length(afternoon_unique_stops)){
   
 }
 
+
+### ALLOCATION BASED ON RELIABILITY SCORE 
+
+# Morning reliability allocation
+morning_reliable <- c()
+
+for(i in seq_along(morning_unique_stops)) {
+  current_stop <- morning_unique_stops[i]
+  
+  find_best_route <- stop_otp %>%
+    filter(stop_id == current_stop,
+           hour %in% new_school_morning)
+  
+  morning_reliable[i] <- find_best_route$Route[
+    which.max(find_best_route$reliability_morning)
+  ]
+}
+
+# Afternoon reliability allocation
+afternoon_reliable <- c()
+
+for(i in seq_along(afternoon_unique_stops)) {
+  current_stop <- afternoon_unique_stops[i]
+  
+  find_best_route <- stop_otp %>%
+    filter(stop_id == current_stop,
+           hour %in% new_school_afternoon)
+  
+  afternoon_reliable[i] <- find_best_route$Route[
+    which.max(find_best_route$reliability_afternoon)
+  ]
+}
+
+
 recommended_routes_morning <- data.frame(
   stop = morning_unique_stops,
   recommended_route = morning_chosen_route
@@ -124,8 +184,17 @@ recommended_routes_afternoon <- data.frame(
   recommended_route = afternoon_chosen_route
 )
 
+morning_reliability_based = data.frame(
+  stop = morning_unique_stops,
+  recommended_route = morning_reliable
+)
 
-return(list(recommended_routes_morning, recommended_routes_afternoon))
+afternoon_reliability_based = data.frame(
+  stop = afternoon_unique_stops,
+  recommended_route = afternoon_reliable
+)
+
+return(list(recommended_routes_morning, recommended_routes_afternoon, morning_reliability_based, afternoon_reliability_based))
 }
 
 
