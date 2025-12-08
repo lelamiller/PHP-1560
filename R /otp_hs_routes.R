@@ -50,5 +50,4 @@ otp_summary <- otp %>%
 
 return(otp_summary)
 
-#PLOT OTP SUMMARY FOR SLIDE 5?
 }
