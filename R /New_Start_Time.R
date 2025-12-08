@@ -17,8 +17,6 @@
 #' @return afternoon_reliability_based, dataframe with needed afternoon bus stops, and the recommended route for the best on time performance based on reliability score 
 
 
-
-
 #load libraries
 library(tidyverse)
 
@@ -214,8 +212,8 @@ new_school_morning <- c(6, 7)
 new_school_afternoon <- c(14, 15)
 #include hour before start time, hour during start time
 #include hour of end time and hour after end time
-old_school_morning <- c(6, 7)
-old_school_afternoon <- c(14, 15)
+old_school_morning <- c(7, 8)
+old_school_afternoon <- c(15, 16)
 
 cutoff <- 10
 
