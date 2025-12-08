@@ -4,24 +4,9 @@
 #' @param school_hours a vector of hours that students would be riding the bus based on school start time and release time
 #' @return otp_summary, a comparison of the proportion of late arrivals on school routes during school hours and non school hours
 
-#Load in data
-#otp <- read.csv("/Users/lelamiller/Downloads/otp_simulated.csv" )
-#ridership <- read.csv("/Users/lelamiller/Downloads/ridership_simulated.csv")
-
-# Nikhil Data
-#otp <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/otp_simulated.csv" )
-#ridership <- read.csv("/Users/nikhilsonthalia/Downloads/PHP-1560/Data/ridership_simulated.csv")
-
 #load libraries
-#library(tidyverse)
+library(tidyverse)
 
-#Set old school hours (current start time)
-#old_school_hours <- c(6, 7, 14, 15)
-
-#set new school hours, can be the same or can be different as the old start time
-#school_hours <- c(6, 7, 14, 15)
-
-#Start the function:
 otp_school_routes <- function(otp, ridership, old_school_hours, school_hours){
 
 #compute school routes by calling our first function
