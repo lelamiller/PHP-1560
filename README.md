@@ -13,7 +13,7 @@ The last dataset is called `stops.txt`and it allows us to merge the stop id numb
 **Scripts:** `HS_Routes.R` (identifies school routes), `otp_hs_routes.R` (OTP comparison), `Lateness Functions.R` (three lateness metrics), `Plots.R` (visualizations), `New_Start_Time.R` (route recommendations), `Main Script.R` (runs everything)
 
 
-##Functions
+## Functions
 ### HS_Routes Function
 Housed in the file: HS_Routes.R
 
@@ -49,7 +49,7 @@ This function computes a wide set of lateness statistics for each route during s
 Output: Dataframe summarizing lateness characteristics for each route.
 
 
-###reliability_score Function
+### reliability_score Function
 
 Housed in: Lateness Functions.R
 Inputs: otp, routes, school_hours
@@ -58,7 +58,7 @@ This function generates a reliability score for each bus route, incorporating bo
 
 Output: Dataframe containing average penalty, maximum penalty, reliability score, and trip count for each route.
 
-###time_period_comparison Function
+### time_period_comparison Function
 
 Housed in: Lateness Functions.R
 Inputs: otp, routes, morning_hours, afternoon_hours
