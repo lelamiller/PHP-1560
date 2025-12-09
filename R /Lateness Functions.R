@@ -67,11 +67,9 @@ analyze_lateness_metrics <- function(otp, routes, school_hours) {
 #' using a penalty-based scoring system. Routes with fewer or shorter delays receive
 #' higher reliability scores, making this metric useful for evaluating or recommending
 #' optimal transportation options for student commuters.
-#'
 #' @param otp A data frame containing on-time performance (OTP) data for bus routes.
 #' @param routes A character or numeric vector of route identifiers to be evaluated.
 #' Only these routes will be included in the scoring process.
-#'
 #' @param school_hours A numeric vector specifying the hours (0–23) during which
 #' students are expected to commute. Only delays occurring within these hours
 #' contribute to the reliability calculation.
@@ -119,7 +117,7 @@ reliability_score <- function(otp, routes, school_hours) {
 #' @param routes A vector of route identifiers to include in the comparison. Only
 #' these routes will be analyzed.
 #' @param morning_hours A numeric vector of hours (0–23) representing the time window
-#' for the morning commuting period (e.g., \code{6:9} for 6 AM–9 AM).
+#' for the morning commuting period
 #' @param afternoon_hours A numeric vector of hours (0–23) for the afternoon
 #' commuting period 
 #' @return A data frame where each row corresponds to a bus route, containing: prop_late = mean(Late_5min),mean_delay = mean(Minutes.Late),median_delay = median(Minutes.Late),sd_delay = sd(Minutes.Late),

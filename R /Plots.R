@@ -115,7 +115,7 @@ plot_afternoon_stops <- function(ridership, old_school_afternoon, cutoff = 10) {
   return(p)
 }
 
-# ========== OTP COMPARISON PLOTS ==========
+#OTP COMPARISON PLOTS
 
 #' Plot 4: OTP comparison school vs non-school hours
 plot_otp_comparison <- function(otp_summary) {
@@ -146,7 +146,7 @@ plot_otp_comparison <- function(otp_summary) {
   return(p)
 }
 
-# ========== LATENESS METRIC PLOTS ==========
+#LATENESS METRIC PLOTS
 
 #' Plot 5: Multiple lateness thresholds
 plot_lateness_thresholds <- function(lateness_metrics, top_n = 10) {
@@ -293,9 +293,9 @@ plot_time_difference <- function(time_comparison, top_n = 10) {
   return(p)
 }
 
-# ========== MAIN PLOTTING FUNCTION ==========
+#MAIN PLOTTING FUNCTION 
 
-#' Generate all plots and save to PDF
+# Generate all plots and save to PDF
 generate_all_plots <- function(ridership, otp, school_routes, 
                                old_school_morning, old_school_afternoon,
                                otp_summary, lateness_metrics, 
@@ -337,42 +337,5 @@ generate_all_plots <- function(ridership, otp, school_routes,
   
   cat("\nAll plots saved to", output_file, "\n")
 }
-
-
-#PLOTS/TABLES OF FUNCTION OUTPUT
-
-library(tidyverse)
-library(ggplot2)
-
-#read in data 
-routes_morning <- read.csv( "/Users/lelamiller/Documents/GitHub/PHP-1560/Results/result_morning.csv")
-routes_afternoon <- read.csv("/Users/lelamiller/Documents/GitHub/PHP-1560/Results/result_afternoon.csv")
-routes_morning_reliable <- read.csv("/Users/lelamiller/Documents/GitHub/PHP-1560/Results/routes_morning_reliable.csv")
-routes_afternoon_reliable <- read.csv("/Users/lelamiller/Documents/GitHub/PHP-1560/Results/routes_afternoon_reliable.csv")
-
-# Rename route column consistently
-routes_morning <- routes_morning %>% rename(route = recommended_route)
-routes_afternoon <- routes_afternoon %>% rename(route = recommended_route)
-routes_morning_reliable <- routes_morning_reliable %>% rename(route = recommended_route)
-routes_afternoon_reliable <- routes_afternoon_reliable %>% rename(route = recommended_route)
-
-# Add allocation labels
-routes_morning$allocation <- "Morning - % Late (5 min)"
-routes_afternoon$allocation <- "Afternoon - % Late (5 min)"
-routes_morning_reliable$allocation <- "Morning - Reliability Score"
-routes_afternoon_reliable$allocation <- "Afternoon - Reliability Score"
-
-# Combine into one dataframe
-routes_all <- bind_rows(routes_morning, 
-                        routes_afternoon, 
-                        routes_morning_reliable, 
-                        routes_afternoon_reliable)
-
-library(gt)
-
-gt(routes_morning)
-gt(routes_afternoon)
-gt(routes_morning_reliable)
-gt(routes_afternoon_reliable)
 
 
